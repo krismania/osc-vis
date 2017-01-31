@@ -2,14 +2,48 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style.css">
 	<title>Visualizer Example Page</title>
 </head>
 <body>
-	<div style="width: 500px; height: 400px; resize: both; padding: 20px; border: 1px solid; margin: auto; overflow: hidden;">
-		<div id="visualizer" style="border: 1px solid; width: 100%; height: 100%;">
-			<audio controls id="player" src=""></audio>
+	<main>
+		<h1>Oscilloscope Visualizer</h1>
+
+		<!-- 
+			Create a div with ID 'visualizer'.
+			You can style this div how you like.
+		 -->
+
+		<div id="visualizer" onmouseover="handleMouseOver()" onmouseout="handleMouseOut()">
+			<!--
+				The visualizer div must contain an audio element.
+				Use of the 'controls' attribute is optional.
+			-->
+			<audio controls id="player"></audio>
 		</div>
-	</div>
-	<script src="visualizer.js"></script>
+
+		<h2>Choose a Song</h2>
+		<input id="upload" type="file" accept=".mp3" onchange="handleUpload(this.files[0])" />
+	</main>
+
+	<script src="../src/visualizer.js"></script>
+	<script>
+		var visualizer = document.getElementById('visualizer');
+		var audioElement = visualizer.getElementsByTagName("audio")[0];
+
+		function handleUpload(file) {
+			var reader = new FileReader();
+			audioElement.src = URL.createObjectURL(file);
+			audioElement.play();
+		}
+
+		function handleMouseOver() {
+			audioElement.style.opacity = 1;
+		}
+
+		function handleMouseOut() {
+			audioElement.style.opacity = 0;
+		}
+	</script>
 </body>
 </html>
