@@ -1,2 +1,4 @@
-# osc-vis
-Javascript/Canvas/Web Audio API Oscilloscope Visualizer
+# Oscilloscope Visualizer
+An audio visualizer utilizing the Web Audio API
+
+![visualizer image](http://i.imgur.com/LmPbhfn.png)
