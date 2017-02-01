@@ -5,7 +5,6 @@ An audio visualizer utilizing the Web Audio API
 
 ## Usage
 Use a `<div>` with `id="visualizer"` and a child `<audio>` element to create the visualizer.
-Use the data attributes `data-color-primary`, `data-color-secondary` and `data-color-bg` to customize the visualizer's colors.
 ```html
 <div id="visualizer">
   <audio src="some.mp3"></audio>
