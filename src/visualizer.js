@@ -2,9 +2,14 @@ window.addEventListener('load', function() {
 
 	container = document.getElementById('visualizer');
 
+	// get data attributes (or set defaults if they aren't specified)
+	var colorPrimary = container.dataset.colorPrimary || 'rgb(255,87,34)';
+	var colorSecondary = container.dataset.colorSecondary || 'rgb(42,42,42)';
+	var colorBg = container.dataset.colorBg || 'rgb(255,255,255)';
+
 	// style the container
 	container.style.position = 'relative';
-	container.style.backgroundColor = '#ffffff';
+	container.style.backgroundColor = colorBg;
 	container.style.overflow = 'hidden';
 
 	// get and style audio element
@@ -14,6 +19,8 @@ window.addEventListener('load', function() {
 	audioElement.style.position = 'absolute';
 	audioElement.style.bottom = '0';
 	audioElement.style.left = '0';
+
+	console.log(colorPrimary, colorSecondary);
 
 	// build canvases
 	var oscTop = document.createElement('canvas');
@@ -52,7 +59,6 @@ window.addEventListener('load', function() {
 	function draw() {
 		// refresh analyser data
 		analyser.getByteTimeDomainData(data);
-		// console.log(data.toString());
 
 		// update canvas sizes if they've changed
 		var width = container.clientWidth;
@@ -66,15 +72,17 @@ window.addEventListener('load', function() {
 		}
 
 		// prepare for frame
-		oscTopCtx.strokeStyle = 'rgb(255,87,34)';
+		oscTopCtx.strokeStyle = colorPrimary;
 		oscTopCtx.clearRect(0, 0, width, height);
 
-		oscBotCtx.globalCompositeOperation = 'lighter';
-		oscBotCtx.fillStyle = 'rgba(255,255,255, 0.01)';
+		oscBotCtx.globalCompositeOperation = 'overlay';
+		oscBotCtx.globalAlpha = 0.07;
+		oscBotCtx.fillStyle = colorBg;
 		oscBotCtx.fillRect(0, 0, width, height);
 
 		oscBotCtx.globalCompositeOperation = 'source-over';
-		oscBotCtx.fillStyle = 'rgb(42,42,42)';
+		oscBotCtx.globalAlpha = 1;
+		oscBotCtx.fillStyle = colorSecondary;
 
 		// draw scope path
 		oscTopCtx.beginPath();
