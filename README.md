@@ -1,6 +1,8 @@
 # Oscilloscope Visualizer
 An audio visualizer utilizing the Web Audio API
 
+[Try it out here](https://krismania.github.io/osc-vis/)
+
 ![visualizer image](http://i.imgur.com/LmPbhfn.png)
 
 ## Usage
