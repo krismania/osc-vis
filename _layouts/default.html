@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="{{ site.github.url }}/style.css">
+	<title>Visualizer Example Page</title>
+</head>
+<body>
+	<main>
+		<h1>Oscilloscope Visualizer</h1>
+
+		<!-- 
+			Create a div with ID 'visualizer'.
+			You can style this div how you like.
+		 -->
+
+		<div 
+			id="visualizer"
+			data-color-primary="rgb(255,87,34)"
+			data-color-secondary="rgb(42,42,42)"
+			data-color-bg="rgb(255,255,255)"
+			onmouseover="handleMouseOver()"
+			onmouseout="handleMouseOut()"
+		>
+			<!--
+				The visualizer div must contain an audio element.
+				Use of the 'controls' attribute is optional.
+			-->
+			<audio controls id="player"></audio>
+		</div>
+
+		<h2>Choose a Song</h2>
+		<input id="upload" type="file" accept=".mp3" onchange="handleUpload(this.files[0])" />
+	</main>
+
+	<script src="https://rawgit.com/krismania/osc-vis/master/src/visualizer.js"></script>
+	<script>
+		var visualizer = document.getElementById('visualizer');
+		var audioElement = visualizer.getElementsByTagName("audio")[0];
+
+		function handleUpload(file) {
+			var reader = new FileReader();
+			audioElement.src = URL.createObjectURL(file);
+			audioElement.play();
+		}
+
+		function handleMouseOver() {
+			audioElement.style.opacity = 1;
+		}
+
+		function handleMouseOut() {
+			audioElement.style.opacity = 0;
+		}
+	</script>
+</body>
+</html>
