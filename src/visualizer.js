@@ -22,8 +22,6 @@ window.addEventListener('load', function() {
 	audioElement.style.bottom = '0';
 	audioElement.style.left = '0';
 
-	console.log(colorPrimary, colorSecondary);
-
 	// build canvases
 	var oscTop = document.createElement('canvas');
 	var oscBot = document.createElement('canvas');
