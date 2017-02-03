@@ -1,11 +1,13 @@
 window.addEventListener('load', function() {
 
+	fps = true; // show the FPS counter
+
 	container = document.getElementById('visualizer');
 
 	// get data attributes (or set defaults if they aren't specified)
-	var colorPrimary = container.dataset.colorPrimary || 'rgb(255,87,34)';
-	var colorSecondary = container.dataset.colorSecondary || 'rgb(42,42,42)';
-	var colorBg = container.dataset.colorBg || 'rgb(255,255,255)';
+	var	colorPrimary = container.dataset.colorPrimary || 'rgb(255,87,34)',
+		colorSecondary = container.dataset.colorSecondary || 'rgb(42,42,42)',
+		colorBg = container.dataset.colorBg || 'rgb(255,255,255)';
 
 	// style the container
 	container.style.position = 'relative';
@@ -54,9 +56,16 @@ window.addEventListener('load', function() {
 	var oscTopCtx = oscTop.getContext('2d');
 	var oscBotCtx = oscBot.getContext('2d');
 
+	var lastFrame = thisFrame = delta = 0;
+
 	draw();
 
 	function draw() {
+		// get delta to last frame
+		thisFrame = Date.now();
+		delta = (thisFrame - lastFrame)/1000;
+		lastFrame = thisFrame;
+
 		// refresh analyser data
 		analyser.getByteTimeDomainData(data);
 
@@ -75,11 +84,20 @@ window.addEventListener('load', function() {
 		oscTopCtx.strokeStyle = colorPrimary;
 		oscTopCtx.clearRect(0, 0, width, height);
 
+		// draw the framerate
+		if (fps) {
+			oscTopCtx.font = '10px sans-serif';
+			oscTop.fillStyle = colorPrimary;
+			oscTopCtx.fillText(Math.round(1/delta) + ' fps', 5, 15);
+		}
+
+		// draw the background over transparently
 		oscBotCtx.globalCompositeOperation = 'overlay';
 		oscBotCtx.globalAlpha = 0.07;
 		oscBotCtx.fillStyle = colorBg;
 		oscBotCtx.fillRect(0, 0, width, height);
 
+		// set style for the bg osc
 		oscBotCtx.globalCompositeOperation = 'source-over';
 		oscBotCtx.globalAlpha = 1;
 		oscBotCtx.fillStyle = colorSecondary;
